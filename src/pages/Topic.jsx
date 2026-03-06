@@ -100,7 +100,7 @@ export default function Topic() {
             {/* Эти маршруты мы реализуем на следующих этапах. Сейчас это “готовые CTA” */}
             <Button
               component={RouterLink}
-              to={`/topics/${topic.id}/lesson`}
+              to={`/topics/${id}/lesson`}
               startIcon={<MenuBookIcon />}
               fullWidth
             >
@@ -109,7 +109,7 @@ export default function Topic() {
 
             <Button
               component={RouterLink}
-              to={`/topics/${topic.id}/tasks`}
+              to={`/topics/${id}/tasks`}
               variant="outlined"
               startIcon={<ExtensionIcon />}
               fullWidth
@@ -119,7 +119,7 @@ export default function Topic() {
 
             <Button
               component={RouterLink}
-              to={`/topics/${topic.id}/test`}
+              to={`/topics/${id}/test`}
               color="secondary"
               variant="outlined"
               startIcon={<QuizIcon />}

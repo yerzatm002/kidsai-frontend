@@ -4,16 +4,19 @@ import { Link as RouterLink } from "react-router-dom";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SchoolIcon from "@mui/icons-material/School";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import { useTranslation } from "react-i18next";
+
 import TopicCard from "../shared/ui/TopicCard";
 import { getTopics } from "../shared/api/topicsApi";
 import { useNotify } from "../shared/ui/notifications/NotificationsProvider";
 import { normalizeApiError } from "../shared/api/apiClient";
 import { useLang } from "../shared/hooks/useLang";
 
-
 export default function Home() {
+  const { t } = useTranslation();
   const { notify } = useNotify();
   const lang = useLang();
+
   const [loading, setLoading] = React.useState(true);
   const [topics, setTopics] = React.useState([]);
 
@@ -21,7 +24,7 @@ export default function Home() {
     (async () => {
       setLoading(true);
       try {
-        const data = await getTopics();
+        const data = await getTopics(lang);
         setTopics(Array.isArray(data) ? data : []);
       } catch (e) {
         const err = normalizeApiError(e);
@@ -41,24 +44,26 @@ export default function Home() {
       <Card>
         <CardContent>
           <Typography variant="h4" sx={{ fontWeight: 900 }}>
-            KidsAI — учимся понимать ИИ легко и интересно
+            {t("home.heroTitle")}
           </Typography>
+
           <Typography color="text.secondary" sx={{ mt: 1 }}>
-            Для учеников 5–6 классов: короткие уроки, задания-игры и тесты.
+            {t("home.heroSubtitle")}
           </Typography>
 
           <Stack direction={{ xs: "column", sm: "row" }} spacing={1.25} sx={{ mt: 2.5 }}>
             <Button component={RouterLink} to="/courses" startIcon={<AutoAwesomeIcon />}>
-              Начать обучение
+              {t("home.startLearning")}
             </Button>
+
             <Button component={RouterLink} to="/faq" variant="outlined">
-              Как это работает?
+              {t("home.howItWorks")}
             </Button>
           </Stack>
         </CardContent>
       </Card>
 
-      {/* What/For whom */}
+      {/* What / For whom */}
       <Box
         sx={{
           display: "grid",
@@ -68,33 +73,45 @@ export default function Home() {
       >
         <Card>
           <CardContent>
-            <Typography variant="h6" sx={{ fontWeight: 900, display: "flex", alignItems: "center", gap: 1 }}>
-              <SchoolIcon /> Кому подходит
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 900, display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <SchoolIcon /> {t("home.forWhomTitle")}
             </Typography>
+
             <Typography color="text.secondary" sx={{ mt: 1 }}>
-              Ученикам 5–6 классов, которые хотят понимать, что такое искусственный интеллект.
+              {t("home.forWhomText")}
             </Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
-            <Typography variant="h6" sx={{ fontWeight: 900, display: "flex", alignItems: "center", gap: 1 }}>
-              <TipsAndUpdatesIcon /> Что такое ИИ
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 900, display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <TipsAndUpdatesIcon /> {t("home.whatIsAiTitle")}
             </Typography>
+
             <Typography color="text.secondary" sx={{ mt: 1 }}>
-              ИИ — это когда компьютер учится на примерах и помогает решать задачи: распознаёт картинки, переводит текст и многое другое.
+              {t("home.whatIsAiText")}
             </Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
-            <Typography variant="h6" sx={{ fontWeight: 900, display: "flex", alignItems: "center", gap: 1 }}>
-              <AutoAwesomeIcon /> Как учимся
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 900, display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <AutoAwesomeIcon /> {t("home.howWeLearnTitle")}
             </Typography>
+
             <Typography color="text.secondary" sx={{ mt: 1 }}>
-              Урок → задания → тест. За успехи получаешь XP и бейджи.
+              {t("home.howWeLearnText")}
             </Typography>
           </CardContent>
         </Card>
@@ -103,7 +120,7 @@ export default function Home() {
       {/* Topics preview */}
       <Stack spacing={1.25}>
         <Typography variant="h5" sx={{ fontWeight: 900 }}>
-          Популярные темы
+          {t("home.popularTopics")}
         </Typography>
 
         {loading ? (
@@ -126,15 +143,15 @@ export default function Home() {
               gap: 2
             }}
           >
-            {top3.map((t) => (
-              <TopicCard key={t.id} topic={t} />
+            {top3.map((topic) => (
+              <TopicCard key={topic.id} topic={topic} />
             ))}
           </Box>
         )}
 
         <Box>
           <Button component={RouterLink} to="/courses" variant="outlined">
-            Смотреть все темы
+            {t("home.viewAllTopics")}
           </Button>
         </Box>
       </Stack>

@@ -1,16 +1,19 @@
 import React from "react";
 import { Box, Typography, Skeleton, Stack, TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useTranslation } from "react-i18next";
+
 import TopicCard from "../shared/ui/TopicCard";
 import { getTopics } from "../shared/api/topicsApi";
 import { useNotify } from "../shared/ui/notifications/NotificationsProvider";
 import { normalizeApiError } from "../shared/api/apiClient";
 import { useLang } from "../shared/hooks/useLang";
 
-
 export default function Courses() {
+  const { t } = useTranslation();
   const { notify } = useNotify();
-  const lang = useLang();
+  const lang = useLang(); // ожидаем "kz" | "ru"
+
   const [loading, setLoading] = React.useState(true);
   const [topics, setTopics] = React.useState([]);
   const [query, setQuery] = React.useState("");
@@ -18,8 +21,8 @@ export default function Courses() {
   const load = React.useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getTopics();
-      setTopics(Array.isArray(data) ? data : []);
+      const items = await getTopics(lang);
+      setTopics(items);
     } catch (e) {
       const err = normalizeApiError(e);
       notify(err.message, "error");
@@ -27,43 +30,32 @@ export default function Courses() {
     } finally {
       setLoading(false);
     }
-  }, [notify]);
+  }, [notify, lang]);
 
   React.useEffect(() => {
     load();
-  }, [load, lang]);
-
-  // чтобы при смене языка данные обновлялись:
-  // i18n меняет язык → apiClient начинает слать другой lang,
-  // но нам нужно перезапросить темы.
-  // Самый простой способ: слушать storage event + i18n event — но без усложнения:
-  // перезагрузка при фокусе вкладки (дружелюбно и стабильно)
-  React.useEffect(() => {
-    const onFocus = () => load();
-    window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
   }, [load]);
 
   const normalized = query.trim().toLowerCase();
   const filtered = normalized
-    ? topics.filter((t) => (t.title || "").toLowerCase().includes(normalized))
+    ? topics.filter((tp) => (tp.title || "").toLowerCase().includes(normalized))
     : topics;
 
   return (
     <Stack spacing={2.5}>
       <Box>
         <Typography variant="h4" sx={{ fontWeight: 900 }}>
-          Курсы
+          {t("courses.title")}
         </Typography>
         <Typography color="text.secondary">
-          Выберите тему и начните обучение
+          {t("courses.subtitle")}
         </Typography>
       </Box>
 
       <TextField
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Поиск по названию темы"
+        placeholder={t("courses.searchPlaceholder")}
         fullWidth
         InputProps={{
           startAdornment: (
@@ -104,7 +96,7 @@ export default function Courses() {
 
       {!loading && filtered.length === 0 ? (
         <Typography color="text.secondary">
-          Ничего не найдено. Попробуйте другой запрос.
+          {t("courses.empty")}
         </Typography>
       ) : null}
     </Stack>

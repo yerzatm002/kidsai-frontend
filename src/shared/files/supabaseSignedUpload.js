@@ -22,7 +22,8 @@ export async function uploadImageAndGetPublicUrl({ file, folder }) {
   const signed = await getSignedUpload({
     fileName: file.name,
     contentType: file.type,
-    folder
+    folder,
+    size: file.size,
   });
 
   if (!signed?.signedUrl || !signed?.publicUrl) {

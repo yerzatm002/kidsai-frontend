@@ -54,8 +54,8 @@ export default function Tasks() {
         getTopicById(id),
         getTasksByTopicId(id)
       ]);
-      setTopic(topicData);
-      setTasks(Array.isArray(tasksData) ? tasksData : []);
+      setTopic(topicData.topic);
+      setTasks(Array.isArray(tasksData.items) ? tasksData.items : []);
       setIndex(0);
     } catch (e) {
       const err = normalizeApiError(e);

@@ -61,9 +61,9 @@ export default function AiFloatingWidget({
   // quick buttons -> mode
   const askQuick = async (mode) => {
     const q =
-      mode === "explain" ? t("ai.quick.simpler") :
-      mode === "example" ? t("ai.quick.example") :
-      t("ai.quick.check");
+      mode === "explain" ? t("ai.quick.explain") :
+      mode === "hint" ? t("ai.quick.hint") :
+      t("ai.quick.quiz");
 
     await send(q, mode);
   };
@@ -163,9 +163,9 @@ export default function AiFloatingWidget({
           ) : null}
 
           <Stack direction="row" spacing={1} sx={{ mt: 1.5, flexWrap: "wrap" }}>
-            <Chip label={t("ai.quick.simpler")} onClick={() => askQuick("explain")} />
-            <Chip label={t("ai.quick.example")} onClick={() => askQuick("example")} />
-            <Chip label={t("ai.quick.check")} onClick={() => askQuick("check")} />
+            <Chip label={t("ai.quick.explain")} onClick={() => askQuick("explain")} />
+            <Chip label={t("ai.quick.hint")} onClick={() => askQuick("hint")} />
+            <Chip label={t("ai.quick.quiz")} onClick={() => askQuick("quiz")} />
           </Stack>
 
           <Divider sx={{ my: 2 }} />

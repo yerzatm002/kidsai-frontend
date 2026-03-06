@@ -157,9 +157,9 @@ export default function Dashboard() {
               value={Math.min(100, (totalXp % 100))} // лёгкий “визуальный рост”, не критичная логика
               sx={{ mt: 1.5, height: 10, borderRadius: 999 }}
             />
-            <Typography color="text.secondary" sx={{ mt: 1 }}>
-              +XP за задания и тесты (геймификация в ТЗ) :contentReference[oaicite:16]{index=16}
-            </Typography>
+          <Typography color="text.secondary" sx={{ mt: 1 }}>
+            +XP за задания и тесты
+          </Typography>
           </CardContent>
         </Card>
 
@@ -171,9 +171,9 @@ export default function Dashboard() {
             <Typography variant="h4" sx={{ fontWeight: 900 }}>
               {completedTopics}
             </Typography>
-            <Typography color="text.secondary" sx={{ mt: 1 }}>
-              Видно, сколько тем реально закрыто (данные из /api/me/dashboard) :contentReference[oaicite:17]{index=17}
-            </Typography>
+          <Typography color="text.secondary" sx={{ mt: 1 }}>
+            Видно, сколько тем реально закрыто
+          </Typography>
           </CardContent>
         </Card>
 
@@ -186,7 +186,7 @@ export default function Dashboard() {
               {badgesCount}
             </Typography>
             <Typography color="text.secondary" sx={{ mt: 1 }}>
-              Бейджи — награды за достижения (ТЗ) :contentReference[oaicite:18]{index=18}
+              Бейджи — награды за достижения
             </Typography>
           </CardContent>
         </Card>
@@ -199,7 +199,7 @@ export default function Dashboard() {
             {t("dashboard.chartTitle")}
           </Typography>
           <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-            Диаграмма строится из `dashboard.chart` :contentReference[oaicite:19]{index=19}
+            Диаграмма строится из `dashboard.chart`, который формирует бэкенд. Обычно это прогресс по темам за последние 2-4 недели.
           </Typography>
 
           <Box sx={{ mt: 2 }}>
