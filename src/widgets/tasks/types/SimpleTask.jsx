@@ -18,7 +18,7 @@ export default function SimpleTask({ task, onAnswerChange }) {
     setValue(v);
 
     // answerPayload — минимальный и универсальный формат
-    onAnswerChange({ choice: v });
+    onAnswerChange({ value: v });
   };
 
   return (

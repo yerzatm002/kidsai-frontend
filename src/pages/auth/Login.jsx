@@ -1,11 +1,14 @@
 import React from "react";
 import { Card, CardContent, Typography, Stack, TextField, Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import { useAuth } from "../../shared/auth/AuthContext";
 import { useNotify } from "../../shared/ui/notifications/NotificationsProvider";
 import { normalizeApiError } from "../../shared/api/apiClient";
 
 export default function Login() {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const { notify } = useNotify();
   const navigate = useNavigate();
@@ -22,7 +25,7 @@ export default function Login() {
     setSubmitting(true);
     try {
       await login({ email, password });
-      notify("Успешный вход!", "success");
+      notify(t("login.success"), "success");
       navigate(from, { replace: true });
     } catch (e2) {
       const err = normalizeApiError(e2);
@@ -36,19 +39,20 @@ export default function Login() {
     <Card>
       <CardContent>
         <Typography variant="h5" sx={{ fontWeight: 900 }}>
-          Войти
+          {t("login.title")}
         </Typography>
 
         <Stack component="form" onSubmit={onSubmit} spacing={1.5} sx={{ mt: 2 }}>
           <TextField
-            label="Email"
+            label={t("login.email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
             fullWidth
           />
+
           <TextField
-            label="Password"
+            label={t("login.password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
@@ -57,7 +61,7 @@ export default function Login() {
           />
 
           <Button type="submit" fullWidth disabled={submitting || !email || !password}>
-            {submitting ? "Входим..." : "Войти"}
+            {submitting ? t("login.loading") : t("login.submit")}
           </Button>
         </Stack>
       </CardContent>

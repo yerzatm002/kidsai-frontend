@@ -8,10 +8,10 @@ export default function AttemptResultCard({ result }) {
   const { t } = useTranslation();
   const { id } = useParams(); // topicId из URL /topics/:id/tasks
 
-  const correct = !!result.correct;
-  const xpAwarded = result.xpAwarded ?? 0;
-  const level = result.level ?? null;
-  const xp = result.xp ?? null;
+  const correct = !!result.isCorrect;
+  const xpAwarded = result.earnedXp ?? 0;
+  const level = result.stats.level ?? null;
+  const xp = result.stats.totalXp ?? null;
 
   const [open, setOpen] = React.useState(true);
 
