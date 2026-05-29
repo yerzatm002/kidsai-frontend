@@ -1,0 +1,11 @@
+##fix logic of submiting tasks and test for the lesson
+
+##check for the AI Gemini functionalities how to handle ansers from the gemini correctly
+
+##ui for the content of the lesson
+
+##check the logic of badges how they should work
+
+##final check for the i18n misses in pages
+
+##fix the logic of techer login it should go to the page of students list
