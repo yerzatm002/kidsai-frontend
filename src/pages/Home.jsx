@@ -5,6 +5,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SchoolIcon from "@mui/icons-material/School";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../shared/auth/AuthContext";
 
 import TopicCard from "../shared/ui/TopicCard";
 import { getTopics } from "../shared/api/topicsApi";
@@ -13,6 +14,7 @@ import { normalizeApiError } from "../shared/api/apiClient";
 import { useLang } from "../shared/hooks/useLang";
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
   const { t } = useTranslation();
   const { notify } = useNotify();
   const lang = useLang();
@@ -21,6 +23,12 @@ export default function Home() {
   const [topics, setTopics] = React.useState([]);
 
   React.useEffect(() => {
+    if (!isAuthenticated) {
+      setTopics([]);
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       setLoading(true);
       try {
@@ -34,7 +42,7 @@ export default function Home() {
         setLoading(false);
       }
     })();
-  }, [notify, lang]);
+  }, [notify, lang, isAuthenticated]);
 
   const top3 = topics.slice(0, 3);
 
@@ -118,43 +126,59 @@ export default function Home() {
       </Box>
 
       {/* Topics preview */}
-      <Stack spacing={1.25}>
-        <Typography variant="h5" sx={{ fontWeight: 900 }}>
-          {t("home.popularTopics")}
-        </Typography>
+      {!isAuthenticated ? (
+        <Card>
+          <CardContent>
+            <Typography variant="h5" sx={{ fontWeight: 900 }}>
+              {t("home.loginRequiredTitle")}
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1 }}>
+              {t("home.loginRequiredText")}
+            </Typography>
+            <Button component={RouterLink} to="/auth/login" sx={{ mt: 2 }}>
+              {t("auth.login")}
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <Stack spacing={1.25}>
+          <Typography variant="h5" sx={{ fontWeight: 900 }}>
+            {t("home.popularTopics")}
+          </Typography>
 
-        {loading ? (
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" },
-              gap: 2
-            }}
-          >
-            {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} variant="rounded" height={240} />
-            ))}
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" },
-              gap: 2
-            }}
-          >
-            {top3.map((topic) => (
-              <TopicCard key={topic.id} topic={topic} />
-            ))}
-          </Box>
-        )}
+          {loading ? (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" },
+                gap: 2
+              }}
+            >
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} variant="rounded" height={240} />
+              ))}
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" },
+                gap: 2
+              }}
+            >
+              {top3.map((topic) => (
+                <TopicCard key={topic.id} topic={topic} />
+              ))}
+            </Box>
+          )}
 
-        <Box>
-          <Button component={RouterLink} to="/courses" variant="outlined">
-            {t("home.viewAllTopics")}
-          </Button>
-        </Box>
-      </Stack>
+          <Box>
+            <Button component={RouterLink} to="/courses" variant="outlined">
+              {t("home.viewAllTopics")}
+            </Button>
+          </Box>
+        </Stack>
+      )}
     </Stack>
   );
 }

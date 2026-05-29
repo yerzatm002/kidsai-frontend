@@ -177,7 +177,9 @@
     "howWeLearnTitle": "Как учимся",
     "howWeLearnText": "Урок → задания → тест. За успехи получаешь XP и бейджи.",
     "popularTopics": "Популярные темы",
-    "viewAllTopics": "Смотреть все темы"
+    "viewAllTopics": "Смотреть все темы",
+    "loginRequiredTitle": "Курсы доступны после входа",
+    "loginRequiredText": "Войдите или зарегистрируйтесь, чтобы увидеть темы, уроки, задания и тесты."
   },
   "login": {
     "title": "Войти",

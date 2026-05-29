@@ -33,11 +33,46 @@ export const router = createBrowserRouter([
     element: <AppShell />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/courses", element: <Courses /> },
-      { path: "/topics/:id", element: <Topic /> },
-      { path: "/topics/:id/lesson", element: <Lesson /> },
-      { path: "/topics/:id/tasks", element: <Tasks /> },
-      { path: "/topics/:id/test", element: <Test /> },
+      {
+        path: "/courses",
+        element: (
+          <RequireAuth>
+            <Courses />
+          </RequireAuth>
+        )
+      },
+      {
+        path: "/topics/:id",
+        element: (
+          <RequireAuth>
+            <Topic />
+          </RequireAuth>
+        )
+      },
+      {
+        path: "/topics/:id/lesson",
+        element: (
+          <RequireAuth>
+            <Lesson />
+          </RequireAuth>
+        )
+      },
+      {
+        path: "/topics/:id/tasks",
+        element: (
+          <RequireAuth>
+            <Tasks />
+          </RequireAuth>
+        )
+      },
+      {
+        path: "/topics/:id/test",
+        element: (
+          <RequireAuth>
+            <Test />
+          </RequireAuth>
+        )
+      },
       
       { path: "/about", element: <About /> },
       { path: "/faq", element: <FAQ /> },
